@@ -63,3 +63,31 @@ Measured on the native rig (Nacht der Untoten, solo, hands-off):
 Open issue: the Sep WEB build still never completes a reload with
 this brain (native/Nov code reloads fine — 554 diff lines in
 weapon_core.qc between the trees; exact Sep culprit not yet found).
+
+## v12 routine + v13 Fred (2026-11-26, native-verified)
+
+- Movement: `.movement` set in PlayerPreThink is stomped by the local
+  client's usercmd on the listen-server rig. The brain now drives
+  `velocity_x/y` directly (190 = walk speed); arrival zeroes it.
+- Routine layer complete and measured (Nacht, native): window duty
+  rounds 1-2 with Vee's recipe (R1: 4 shots + knife, R2: 8 + knife),
+  repair between rounds (mode 3), Kar98k wall-buy on the last mag
+  (mode 4: find the `buy_weapon` trigger with weapon==W_KAR, stand at
+  its chalk + 18, face it, hold use), door after round 2 (mode 5:
+  `door_nzp_cost`, bbox-center targeting, push in with use held).
+  Best runs: 2,140 pts / round 3 / alive at cutoff (v12j, first full
+  routine), 2,240 pts / round 3 / alive (Fred build), door purchase
+  confirmed on the HUD (-1000 popup).
+- Reload watchdog (Sep web tree only, bot_export_sep_web.qc): if a
+  reload's anim chain drops the ammo grant, W_Give_Ammo delivers it
+  0.15s after reload_delay expires. Shipped in web v12; not yet
+  exercised on the web surface (cloud browser starves the game).
+- Fred the Brain zombies (v13): Fred_the_Brain_Rigged.glb baked in
+  Blender (decimate -> weld -> 211 frames matching zfull.mdl's frame
+  table; walk/idle are his real clips, death = tip-over, window
+  attack = lean). Engine hard cap found by bisection: alias models
+  over ~2048 verts are rejected ("Invalid or truncated alias
+  model"); final fred.mdl = 1,718 verts / 899 tris, 256x256
+  palette-quantized skin. QC: zombie setmodel zfull/zb% -> fred.mdl
+  (+ precaches). Hitbox models untouched, so bot performance is
+  unchanged. Web progs.pk3 carries models/ai/fred.mdl inside.
