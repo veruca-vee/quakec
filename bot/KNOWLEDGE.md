@@ -7,6 +7,33 @@ the Sep web tree — one model serves both builds) unless marked
 [research] (community/WaW data, NZ:P docs bless WaW parity) or
 [telemetry] (measured in our own runs).
 
+## 0. The objective and the obstacle chain (Vee's architecture rule)
+
+The bot has ONE objective. It never "does activities" — every task
+it runs exists because a specific obstacle stands between it and
+the objective, and the task's whole job is to remove that obstacle.
+When the obstacle clears, the task ends. When the bot dies, the
+audit question is fixed: which obstacle killed it, and was the task
+chosen for that obstacle wrong, or just late?
+
+**OBJECTIVE: Do not die. Advance rounds as long as possible.**
+
+The chain, in the order the game presents the obstacles (Route B):
+
+| # | Obstacle restricting the objective | Task that gets rid of it |
+|---|---|---|
+| 1 | Zombies reach the player in the open | Hold a boarded window — boards are a time buffer between claws and player |
+| 2 | Too few points to change the situation | Farm at the window (arm shots + knife, §4) — points are future options |
+| 3 | The spawn room has no loop; a surround there is death | Open the STAIRS door (1000) — never the Help door (§5) |
+| 4 | Starting gun's damage falls behind zombie HP (~R3) | Buy a real gun, priced with reload exposure (§3) — Thompson the target, Kar the bridge |
+| 5 | Windows stop holding as spawn pressure rises | Leave the windows; hold the upstairs funnel (Help door closed = one entry) |
+| 6 | Any fixed position is eventually overrun | Train: run the loop so the horde stays a queue behind (§5, §6) |
+| 7 | Ammo and boards run out mid-round | Crawler discipline: keep the last zombie alive; shop, repair, reposition under its cover |
+| 8 | Boards fall faster than they are rebuilt | Repair between rounds only, under crawler cover — never mid-fight |
+
+Telemetry logs the triple (objective state, current obstacle,
+current task) so every death names its obstacle.
+
 ## 1. Points — what a zombie is worth (source: server/damage.qc:35-43)
 
 - Non-lethal hit: **+10**
@@ -153,3 +180,39 @@ Route B. Pin each door's bbox center from the BSP at build time.
 - The LLM strategist (offline) revises this doc when telemetry
   disagrees with it. The doc is the bot's understanding; the code
   is just its hands.
+
+## 8. The failure checklist (acceptance tests for every build)
+
+Known ways a zombies bot dies or bankrupts itself, collected from
+the Plutonium BO2 bot postmortems [research], our own telemetry,
+and Vee's play. A build is not done while any box is unchecked in
+testing. (Vee, 2026-11-27: "yes those are added to the checklist".)
+
+From the precedent bots:
+- [ ] Kills the last zombie early (crawler murder) and loses the
+      between-round economy — must hold fire on the final zombie
+      while shopping/repair tasks remain.
+- [ ] Swaps to a weaker gun — weapon changes only ever go UP the
+      §3 ranking; a trade-down is a bug, not a choice.
+- [ ] Mistimed door buys — buying while a horde is inbound or
+      without the points reserve the next obstacle needs; buys
+      happen behind boards or under crawler cover.
+
+From our own runs:
+- [ ] Dies dry — firing an empty gun, or no awareness that reserve
+      ammo is the real clock.
+- [ ] Dies reloading while standing still — reload exposure (§3)
+      not priced into the decision to reload.
+- [ ] Opens the wrong door — nearest-door logic opening the Help
+      door and silently destroying Route B.
+- [ ] Dies at a window it should have abandoned — the funnel
+      (§4) was pointed at it and it stayed.
+- [ ] Fires explosives at close range / own position — Vee's
+      standing rule; the box's splash weapons are self-kills.
+- [ ] Farms with head-aim — an economic failure, not a death:
+      points left on the table every single zombie (§4).
+
+From Vee's own play (2026-11-27):
+- [ ] Takes a 2-shell gun with a 3-second reload into an open
+      fight — the exposure trap, §3. If it ever holds one, it
+      reloads only on the move, horde behind it.
