@@ -129,3 +129,31 @@ use the v13 lineage or v14 with bot_noassist set.
   main.qc's LinkZombiesHitbox -- swapped there too).
 - Web v14: qwprogs 852,942 (Sep tree, 0 errors, other dats
   stock-sized); pk3 503,740 bytes (no fred.mdl inside this time).
+- v15 texture pack (2026-11-27, ships on top of the v14 debug
+  build): girly construction debug-map pack for Nacht. All 21
+  replaceable textures in maps/ndu.bsp redrawn in place (same
+  sizes, BSP byte-identical length) by texpack/retexture.py:
+  pale pink paper + magenta grid + debug tag (texture name/size)
+  on every surface, satirical labels in character -- WALL
+  "load-bearing since 1945 / do not lick", FLOOR "mind the gap
+  (the gap is winning)", DOOR with magenta/white caution stripes
+  + "1000 pts", TILES "slippery when dead", CONCRETE "emotionally
+  unavailable", DEBRIS "osha notified", WOOD "tree's revenge",
+  GRATE "expectations", BOX "contains: box", cupboard "snacks?
+  no", pink chalk rewrites of the two hint decals ("You MUST
+  ASCEND FROM DARKNESS (stairs are right there)", "SALVATION
+  LIES ABOVE (it's a gun. it's always a gun)"), fence textures
+  keep their see-through holes (alpha preserved exactly).
+  The window barricade boards are a MODEL (models/misc/
+  window.mdl, one 128x16 plank skin): the skin now reads
+  "zombies awee!! ->" on pink wood, so every board at every
+  window carries the note Vee asked for.
+  Zombies keep stock colors (Vee's call -- the contrast looks
+  cool): textures are quantized to the STOCK palette and no
+  palette.lmp ships. An earlier girly palette.lmp experiment
+  was dropped for this reason; it only tinted shadows lilac
+  anyway -- the lightmap kept walls warm.
+  Native-verified in-engine (bot at a window: pink awee boards,
+  WALL labels legible, pink ground outside). Web: the pk3
+  carries maps/ndu.bsp + the window model files inside
+  progs.pk3 alongside the v14 dats/shapes.
