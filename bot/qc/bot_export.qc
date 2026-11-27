@@ -26,6 +26,18 @@ void() BotExport_Think =
 	if (time < bot_export_next)
 		return;
 	bot_export_next = time + 0.25;
+	// BOT DEBUG ASSIST (v14, temporary): flatten every lightstyle to
+	// steady full brightness so the map is easy to see while tuning.
+	// Same bot_noassist gate as the FireTrace snap.
+	if (cvar("bot_noassist") == 0 && time < 6)
+	{
+		float li = 0;
+		while (li < 64)
+		{
+			lightstyle(li, "z");
+			li = li + 1;
+		}
+	}
 	entity pl = find(world, classname, "player");
 	if (!pl)
 		return;

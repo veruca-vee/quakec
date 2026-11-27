@@ -89,7 +89,10 @@ vector(entity w) Bot_WindowStand =
 void() BotBrain_Think =
 {
 	if (cvar("bot_off"))
+	{
+		self.enemy = world;
 		return;
+	}
 	if (self.downed || self.is_spectator || self.health <= 0)
 		return;
 
@@ -111,6 +114,9 @@ void() BotBrain_Think =
 			if (d < best) { best = d; nearest = z; }
 		}
 	}
+
+	// v14 debug assist channel: FireTrace snaps onto self.enemy.
+	self.enemy = nearest;
 
 	self.button0 = 0;
 	self.button5 = 0;
