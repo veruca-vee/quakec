@@ -34,3 +34,12 @@ They outrank generic bot heuristics.
 - The in-code route is also the lag fix: no cloud-browser control
   loop, no frame parsing — the script runs inside the game on
   whatever device opens it.
+
+## Vee field notes (from her own play, 2026-11-27)
+- 2026-11-27: Vee went down in round 2 (score 1240) and calls the
+  reason herself: she chose the double-barrel shotgun and died in
+  its reload. Brain rule: a 2-shell gun with a long reload is a
+  death trap in the open -- never sit in a reload with zombies
+  inbound; if the bot ever holds a slow-reload/low-mag weapon,
+  reloading means moving (kite first, reload on the move), and
+  weapon choice should price reload exposure, not just damage.
